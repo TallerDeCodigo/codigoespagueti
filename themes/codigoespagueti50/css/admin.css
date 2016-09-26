@@ -1,0 +1,6 @@
+/*Position Controls*/
+
+.meta-container{min-height: 100px;}
+.position_mini{width: 28.6%; height: 15px; background-color: #FFF; border: 1px solid #C4C4C4; float: left; text-align: center; margin: 0 5px; padding: 25px 0; font-weight: bold;}
+
+input.position_checkbox{ width: auto; float: left; margin: 5px 13.5%;}
