@@ -160,6 +160,14 @@
 
 	<?php get_template_part( 'templates/main', 'entrevistas' ); ?>
 	<?php // get_template_part( 'templates/main', 'leyendo' ); ?>
-	
+
+		<div class="player">
+			<div class="main_video">
+				<iframe id="el_video" frameBorder="0" src=""></iframe>
+			</div>
+			<div class="playlist">
+				<ul></ul>
+			</div>
+		</div>
 
 	<?php get_footer(); ?>

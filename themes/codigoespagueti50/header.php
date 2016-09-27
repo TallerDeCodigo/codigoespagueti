@@ -15,6 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet' type='text/css'/>
 		<link rel="stylesheet" type="text/css" href="<?php echo bloginfo('stylesheet_url'); ?>?20151002">
+		<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<?php
 
 		if(is_single() || is_page()) {
@@ -37,6 +38,7 @@
 		<?php
 		}
 		?>
+
 		<?php /* BANNERS */ ?>
 
 		<script type='text/javascript'>
@@ -91,7 +93,7 @@
 		})();
 		</script>
 		
-		<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		
 
 	<script>
 		
@@ -124,6 +126,19 @@
     	});
 	</script>
 
+	<script type="text/javascript">
+    	$(window).load(function(){
+			$(function() {
+				$(document).on('click', '.playlist li', function() {
+					var link = $(this).attr('data');
+					$('#el_video').attr('src', 'fbvideos.php?video='+link);
+					$('.playlist li').removeClass('active');
+					$(this).addClass('active');
+				});
+			});
+    	}); 
+	</script>
+
 		
 	<?php wp_head(); ?>
 
@@ -132,6 +147,49 @@
 	<body <?php body_class(); ?>>
 		
 		<div id="fb-root"></div>
+		<script>
+		   window.fbAsyncInit = function() {
+		     FB.init({
+		       appId      : '{1082338278518133}',
+		       xfbml      : true,
+		       version    : 'v2.5'
+		     });
+
+		     FB.api(
+		       '/597468376939248/videos',
+		       'GET',
+		       {'access_token':'1082338278518133|y8CEuOhA07IZmeMWbxXm2LLet5c'},
+		       function(response) {
+		       	console.log(response);
+		       		var count = 0;
+	           		$.each(response.data, function( key, value ) {
+	       				$.each(value, function( key, value ) {
+	       					if (key=='description') {
+	       						temporal = value;
+	       					}
+	   						if (key=='id') {
+	       						$('.playlist ul').append('<li data="'+value+'"><p class="description">'+temporal+'</p></li>');
+	   							if (count==0) {
+	   								$('.playlist li:first-of-type').addClass('active');
+	   								$('#el_video').attr('src', 'fbvideos.php?video='+value);
+	   							}
+	       					}
+	       				});
+	       				count++;
+	           		});
+		       }
+		     );
+		   
+		   };
+
+		   (function(d, s, id){
+		      var js, fjs = d.getElementsByTagName(s)[0];
+		      if (d.getElementById(id)) {return;}
+		      js = d.createElement(s); js.id = id;
+		      js.src = "//connect.facebook.net/es_LA/sdk.js";
+		      fjs.parentNode.insertBefore(js, fjs);
+		    }(document, 'script', 'facebook-jssdk'));
+		 </script>
 			<div id="wrapper">
 				<header>
 					<div id="startups-head" style="display:none;">
