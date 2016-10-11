@@ -148,6 +148,10 @@
 
 		add_meta_box( 'meta-box-leyendo', 'Link externo', 'show_metabox_link_externo', 'leyendo', 'side', 'default' );
 
+	//POST META SOURCE OPTIONS
+	
+		add_meta_box( 'meta-box-fuente', 'Opciones', 'show_metabox_fuente_post', 'post', 'side', 'default' );		
+
 	});
 
 
@@ -329,6 +333,29 @@ HTML;
 		echo "<input type='url' name='link_externo' class='widefat' value='$link'>";
 	}
 
+	function show_metabox_fuente_post($post){
+
+		$fuente = get_post_meta($post->ID, 'opciones_fuente', true);
+		wp_nonce_field(__FILE__, 'opciones_fuente_nonce');
+		
+		echo "
+			<div class='meta-container cf'>
+				<div class='position_mini'>Fractal</div>
+				<div class='position_mini'>Creadores</div>
+				<div class='position_mini'>Posible</div>
+
+				<input class='position_checkbox' type='radio' name='fuente_meta' value='1' ";
+				echo ( $fuente == 1 ) ? 'checked>' : '>' ;
+				echo "
+				<input class='position_checkbox' type='radio' name='fuente_meta' value='2' ";
+				echo ( $fuente == 2 ) ? 'checked>' : '>' ;
+				echo "<input class='position_checkbox' type='radio' name='fuente_meta' value='3' ";
+				echo ( $fuente == 3 ) ? 'checked>' : '>' ;
+	   echo "</div>";
+
+
+	}
+
 
 	//Callback function to show home position metabox
 
@@ -496,9 +523,25 @@ HTML;
 		if( isset( $_POST[ 'position_meta' ] ) ) {
 
 			if ($_POST[ 'position_meta' ] != 0) {
-				update_home_position($post_id, $_POST['position_meta']);
+				update_home_position($post_id,  $_POST['position_meta']);
 			}
 		}
+
+	// Position Fuente
+	
+		if( isset( $_POST[ 'fuente_meta' ] ) ) {
+
+			if ($_POST[ 'fuente_meta' ] != 0) {
+				update_post_meta($post_id, 'opciones_fuente', $_POST['fuente_meta']);
+			} else if ( ! defined('DOING_AJAX') ){
+				
+				delete_post_meta($post_id, 'opciones_fuente');
+			}
+
+		}
+
+
+		
 
 	});
 
@@ -542,5 +585,3 @@ HTML;
 	}
 
 */
-
-
